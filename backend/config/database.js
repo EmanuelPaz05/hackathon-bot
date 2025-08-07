@@ -6,7 +6,7 @@ const connectDB = async () => {
             host: '45.235.98.42',
             user: 'cesara_6835',
             password: 'H4YLRJ37aGdHFPcY',
-            database: 'cesara_6835'
+            database: 'cesara_6835'//Cadena de conexión a la base de datos
         });
 
         console.log('Database connected successfully');
