@@ -3,6 +3,8 @@ const cors = require('cors');
 const multer = require('multer');
 const path = require('path');
 require('dotenv').config();
+const { processWithOpenAI } = require('./services/openai');
+const connectDB = require('./config/database');
 
 const app = express();
 const PORT = process.env.PORT || 3000;
@@ -25,6 +27,8 @@ const storage = multer.diskStorage({
 
 const upload = multer({ storage: storage });
 
+app.use(connectDB);
+
 // Rutas
 app.post('/api/process-claim', upload.single('image'), async (req, res) => {
     try {
@@ -44,7 +48,7 @@ app.post('/api/process-claim', upload.single('image'), async (req, res) => {
 });
 
 app.get('/', (req, res) => {
-    res.sendFile(path.join(__dirname, '../frontend/index.tsx'));
+    res.sendFile(path.join(__dirname, '../frontend/index.html'));
 });
 
 app.listen(PORT, () => {

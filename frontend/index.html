@@ -1,12 +1,53 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>chatbot</title>
-  </head>
-  <body>
-    <div id="root"></div>
-    <script type="module" src="/src/main.jsx"></script>
-  </body>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chatbot</title>
+</head>
+<body>
+    <h1>Chatbot</h1>
+    <form id="chat-form">
+        <input type="text" id="chat-input" placeholder="Escribe un mensaje...">
+        <input type="file" id="chat-file" accept="image/*" name="image">
+        <button type="submit">Enviar</button>
+    </form>
+    <ul id="chat-log"></ul>
+    <script>
+        const form = document.getElementById('chat-form');
+        const input = document.getElementById('chat-input');
+        const fileInput = document.getElementById('chat-file');
+        const chatLog = document.getElementById('chat-log');
+
+        form.addEventListener('submit', (e) => {
+            e.preventDefault();
+            const message = input.value;
+            const user_message = message;
+            const file = fileInput.files[0];
+            const formData = new FormData();
+            formData.append('image', file);
+            formData.append('message', message);
+            formData.append('user_message', user_message);
+
+            fetch('/api/process-claim', {
+                method: 'POST',
+                body: formData
+            })
+            .then(response => response.json())
+            .then(data => {
+                const li = document.createElement('li');
+                li.textContent = `Tú: ${message}`;
+                chatLog.appendChild(li);
+                const responseLi = document.createElement('li');
+                responseLi.textContent = `Bot: ${data.response}`;
+                responseLi.style.backgroundColor = '#ccc';
+                chatLog.appendChild(responseLi);
+            })
+            .catch(error => console.error('Error:', error));
+            input.value = '';
+            fileInput.value = '';
+        });
+    </script>
+</body>
 </html>
+
