@@ -23,13 +23,14 @@ async function getOpenAIResponse(prompt) {
 module.exports = {
     getOpenAIResponse
 };
-"color: #61dafb; font-weight: bold;">const OpenAI = require('openai');
-"color: #61dafb; font-weight: bold;">const openai = new OpenAI({
+
+const OpenAI = require('openai');
+const openai = new OpenAI({
     apiKey: process.env.OPENAI_API_KEY
 });
 
-"color: #61dafb; font-weight: bold;">async "color: #61dafb; font-weight: bold;">function processWithOpenAI(userMessage) {
-    "color: #61dafb; font-weight: bold;">const prompt = `
+async function processWithOpenAI(userMessage) {
+    const prompt = `
     Analiza el siguiente reclamo vecinal y responde de manera profesional:
     
     Reclamo: "${userMessage}"
@@ -40,7 +41,7 @@ module.exports = {
     - enabled: true si es un reclamo válido, false si no
     `;
 
-    "color: #61dafb; font-weight: bold;">const comp"color: #61dafb; font-weight: bold;">letion = "color: #61dafb; font-weight: bold;">await openai.chat.comp"color: #61dafb; font-weight: bold;">letions.create({
+    const completion = await openai.chat.completions.create({
         model: "gpt-3.5-turbo",
         messages: [
             {
@@ -55,5 +56,5 @@ module.exports = {
         temperature: 0.7
     });
 
-    return JSON.parse(comp"color: #61dafb; font-weight: bold;">letion.choices[0].message.content);
+    return JSON.parse(completion.choices[0].message.content);
 }

@@ -43,6 +43,10 @@ app.post('/api/process-claim', upload.single('image'), async (req, res) => {
     }
 });
 
+app.get('/', (req, res) => {
+    res.sendFile(path.join(__dirname, '../frontend/index.tsx'));
+});
+
 app.listen(PORT, () => {
     console.log(`Servidor corriendo en puerto ${PORT}`);
 });
